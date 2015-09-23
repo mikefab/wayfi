@@ -6,26 +6,73 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link#bootstrap-css(href='//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel='stylesheet')
 
+    style(type='text/css').
+      .menu_height {
+        min-height: 60px;
+      }
+
+
   body
-
-
     section
+      br
       .container
+        //- span(id='escaped')=__(getLocale())
+        //- span(id='unescaped')!= __("welcome_to_unicef")
+
+        .row.menu_height
+          .col-xs-3
+            .fb-like(data-href='https://developers.facebook.com/docs/plugins/', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
+
+          .col-xs-2
+            a.twitter-follow-button(href='https://twitter.com/UNICEFInnovate', data-show-count='false') Follow @UNICEFInnovate
+            script.
+              !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+          .col-xs-6
+            .row
+              .col-md-2
+                if __(getLocale()) == 'en'
+                  u
+                    a(href='/en') English
+                else
+                  a(href='/en') English
+              .col-md-2
+                if __(getLocale()) == 'ar'
+                  u
+                    a(href='/ar') العربية
+                else
+                  a(href='/ar') العربية
+
+              .col-md-3
+                if __(getLocale()) == 'ar-sy'
+                  u
+                    a(href='/ar-sy') السورية العربية
+                else
+                  a(href='/ar-sy') السورية العربية
+
+              .col-md-2
+                if __(getLocale()) == 'tr'
+                  u
+                    a(href='/tr') Türk
+                else
+                  a(href='/tr') Türk
+
         .row
           .col-xs-12
             .form-wrap
-              h1 Welcome to UNICEF
-              h2 Please fill in the information below and you'll have one hour of access. 
-              h3 We hope this gives you the information you need to be safe and continue your journey in a peaceful way.
+
+              h1!= __("h1")
+              h2!= __("h2")
+              h3!= __("h3")
               br
               br
 
               form(name='survey', method='post', action=__(getLocale())).form.col-md-12.center-block
                 .form-group
-                  label(for='twitter') Twitter
+                  label(for='twitter')= __("Twitter")
                   input#twitter.form-control(type='text', name='twitter', placeholder='@desperate_hungry_person')
                 .form-group
-                  label(for='number_of_children') How many children under 19 are you traveling with?
+                  label(for='number_of_children')= __("how_many_children")
                   select#number_of_children.form-control(name='number_of_children')
                     option 0
                     option 1
@@ -37,10 +84,20 @@ html(lang='en')
                     option 7
                     option 8
 
-                input#btn-login.btn.btn-custom.btn-lg.btn-block(type='submit', value='Log in')
+                input#btn-login.btn.btn-custom.btn-lg.btn-block(type='submit', value=__("Connect"))
 
               hr
 
+
+              #fb-root
+              script.
+                (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=344030908949220";
+                fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
 
 
     script.
