@@ -22,16 +22,28 @@ var express      = require('express'),
 
 
 mongoose.connect(mongoUri); // connect to our database
+// you'll need cookies
+app.use(cookieParser());
+
+// set a cookie
+function detect_or_set_cookie(res){
+
+    // no: set a new cookie
+    var randomNumber=Math.random().toString();
+    randomNumber=randomNumber.substring(2,randomNumber.length);
+    res.cookie('seen',randomNumber, { maxAge: 900000, httpOnly: true });
+    console.log('cookie created successfully');
+  return res
+};
 
 // minimal config
 i18n.configure({
-  locales: ['en', 'fr', 'ar'],
+  locales: ['en', 'ar', 'ar-sy', 'tr'],
   cookie: 'yourcookiename',
   directory: __dirname+'/locales'
 });
 
-// you'll need cookies
-app.use(cookieParser());
+
 
 // init i18n module for this loop
 app.use(i18n.init);
@@ -39,6 +51,7 @@ app.use(bodyParser());
 
 // set a cookie to requested locale
 app.get('/', function (req, res) {
+  console.log("Cookies: ", req.cookies)
   res.redirect('/ar');
 });
 
@@ -46,6 +59,14 @@ app.get('/', function (req, res) {
 
 // set a cookie to requested locale
 app.get('/:locale', function (req, res) {
+
+  if(!!req.cookies.seen){
+    console.log('Return user ' + req.cookies.seen)
+  }else{
+    console.log('Setting cookie for new user')
+    res = detect_or_set_cookie(res)
+  }
+
   res.setLocale(req.params.locale)
   res.render('index.jade');
 });
@@ -53,13 +74,15 @@ app.get('/:locale', function (req, res) {
 
 // set a cookie to requested locale
 app.post('/:locale', function (req, res) {
-
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  console.log(req.cookies.seen)
   s = new Survey(
       {
-          ip:                  req._remoteAddress,
+          ip:                  ip,
           date:                new Date(),
           locale:              req.params.locale,
           twitter:             req.body.twitter,
+          cookie:              req.cookies.seen,
           number_of_children:  parseInt(req.body.number_of_children)
       })
   s.save()
