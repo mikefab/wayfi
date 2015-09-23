@@ -11,6 +11,7 @@ var surveySchema = new mongoose.Schema(
       router_id:          { type: String},
       ip:                 { type: String},
       locale:             { type: String},
+      cookie:             { type: String}, 
       number_of_children: { type: Number},
       date:               { type: Date, default: Date.now }
   }, { collection : 'surveys' }
