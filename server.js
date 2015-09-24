@@ -51,7 +51,9 @@ app.use(bodyParser());
 
 // set a cookie to requested locale
 app.get('/', function (req, res) {
-  console.log("Cookies: ", req.cookies)
+  if(!!req.headers['referer']){
+    res.cookie('referrer',req.headers['referer'], { maxAge: 900000, httpOnly: true });
+  }
   res.redirect('/ar');
 });
 
@@ -61,7 +63,7 @@ app.get('/', function (req, res) {
 app.get('/:locale', function (req, res) {
 
   if(!!req.cookies.seen){
-    console.log('Return user ' + req.cookies.seen)
+    //console.log('Return user ' + req.cookies.seen)
   }else{
     console.log('Setting cookie for new user')
     res = detect_or_set_cookie(res)
@@ -97,7 +99,8 @@ app.post('/:locale', function (req, res) {
     console.log(json);
   });
 
-  res.render('finish.jade');
+  res.redirect(req.cookies.referrer + "?continue_url=www.google.com&duration=3600")
+  //res.render('finish.jade');
 });
 
 
