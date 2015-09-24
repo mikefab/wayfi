@@ -51,8 +51,8 @@ app.use(bodyParser());
 
 // set a cookie to requested locale
 app.get('/', function (req, res) {
-  if(!!req.headers['referer']){
-    res.cookie('referrer',req.headers['referer'], { maxAge: 900000, httpOnly: true });
+  if(!!req.query){
+    res.cookie('query',req.query, { maxAge: 900000, httpOnly: true });
   }
   res.redirect('/ar');
 });
@@ -98,8 +98,7 @@ app.post('/:locale', function (req, res) {
     if (err) { return console.error(err); }
     console.log(json);
   });
-
-  res.redirect(req.cookies.referrer + "?continue_url=www.google.com&duration=3600")
+  res.redirect(req.cookies.query.base_grant_url + "?continue_url=http://www.unicef.org&duration=30")
   //res.render('finish.jade');
 });
 
