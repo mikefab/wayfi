@@ -19,16 +19,16 @@ html(lang='en')
         //- span(id='escaped')=__(getLocale())
         //- span(id='unescaped')!= __("welcome_to_unicef")
 
-        .row.menu_height
-          .col-xs-3
-            .fb-like(data-href='https://developers.facebook.com/docs/plugins/', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
-
-          .col-xs-2
-            a.twitter-follow-button(href='https://twitter.com/UNICEFInnovate', data-show-count='false') Follow @anonymous_refugee
-            script.
-              !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-
-          .col-xs-6
+        .row
+          .col-xs-4
+            .row.menu_height
+              .col-xs-3
+                .fb-like(data-href='https://developers.facebook.com/docs/plugins/', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
+            .row
+              .col-xs-2
+                a.twitter-follow-button(href='https://twitter.com/anonymous_refugee', data-show-count='false') Follow @anonymous_refugee
+                script.
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
             .row
               .col-md-2
                 if __(getLocale()) == 'en'
@@ -36,55 +36,57 @@ html(lang='en')
                     a(href='/en') English
                 else
                   a(href='/en') English
+            .row
               .col-md-2
                 if __(getLocale()) == 'ar'
                   u
                     a(href='/ar') العربية
                 else
                   a(href='/ar') العربية
-
+            .row
               .col-md-3
                 if __(getLocale()) == 'ar-sy'
                   u
                     a(href='/ar-sy') السورية العربية
                 else
                   a(href='/ar-sy') السورية العربية
-
+            .row
               .col-md-2
                 if __(getLocale()) == 'tr'
                   u
                     a(href='/tr') Türk
                 else
                   a(href='/tr') Türk
-
         .row
-          .col-xs-12
-            .form-wrap
+          .col-xs-12       
+            .row
+              .col-xs-12
+                .form-wrap
 
-              h1!= __("h1")
-              h2!= __("h2")
-              h3!= __("h3")
-              br
-              br
+                  h1!= __("h1")
+                  h2!= __("h2")
+                  h3!= __("h3")
+                  br
+                  br
 
-              form(name='survey', method='post', action=__(getLocale())).form.col-md-12.center-block
-                .form-group
-                  label(for='twitter')= __("Twitter")
-                  input#twitter.form-control(type='text', name='twitter', placeholder='@desperate_hungry_person')
-                .form-group
-                  label(for='number_of_children')= __("how_many_children")
-                  select#number_of_children.form-control(name='number_of_children')
-                    option 0
-                    option 1
-                    option 2
-                    option 3
-                    option 4
-                    option 5
-                    option 6
-                    option 7
-                    option 8
+                  form(name='survey', method='post', action=__(getLocale())).form.col-md-12.center-block
+                    .form-group
+                      label(for='twitter')= __("Twitter")
+                      input#twitter.form-control(type='text', name='twitter', placeholder='@desperate_hungry_person')
+                    .form-group
+                      label(for='number_of_children')= __("how_many_children")
+                      select#number_of_children.form-control(name='number_of_children')
+                        option 0
+                        option 1
+                        option 2
+                        option 3
+                        option 4
+                        option 5
+                        option 6
+                        option 7
+                        option 8
 
-                input#btn-login.btn.btn-custom.btn-lg.btn-block(type='submit', value=__("Connect"))
+                    input#btn-login.btn.btn-custom.btn-lg.btn-block(type='submit', value=__("Connect"))
 
               hr
 
