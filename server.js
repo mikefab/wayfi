@@ -18,7 +18,7 @@ var express      = require('express'),
     mongoUri     = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/surveys';
     Survey       = require('./app/models/survey')
     port         = process.env.PORT || 3000;
-    sendgrid     = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
+    sendgrid     = require('sendgrid')(config.sendgrid_user, config.sendgrid_pass);
     nodemailer   = require('nodemailer');
     config       = require('config.json')('./secret-config.json');
 
@@ -102,22 +102,22 @@ app.post('/:locale', function (req, res) {
   s.save()
 
 
-  transporter.sendMail({
-      from: config.from,
-      to: config.to,
-      subject: 'survey',
-      text: JSON.stringify(s)
-  });
-
-  // sendgrid.send({
-  //   to:       'mikefabrikant@gmail.com',
-  //   from:     'wayfi@unicef.org',
-  //   subject:  'new survey',
-  //   text:     JSON.stringify(s)
-  // }, function(err, json) {
-  //   if (err) { return console.error(err); }
-  //   console.log(json);
+  // transporter.sendMail({
+  //     from: config.from,
+  //     to: config.to,
+  //     subject: 'survey',
+  //     text: JSON.stringify(s)
   // });
+
+  sendgrid.send({
+    to:       'config.to',
+    from:     'config.from',
+    subject:  'new survey',
+    text:     JSON.stringify(s)
+  }, function(err, json) {
+    if (err) { return console.error(err); }
+    console.log(json);
+  });
   res.redirect(req.cookies.query.base_grant_url + "?continue_url=http://www.unicef.org&duration=30")
   //res.render('finish.jade');
 });
