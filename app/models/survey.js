@@ -7,7 +7,13 @@ var surveySchema = new mongoose.Schema(
 
   {
       twitter:            { type: String},
-      xxx:                { type: String},
+      query:  {
+        node_id:    {type: String},
+        node_mac:   {type: String},
+        gateway_id: {type: String},
+        client_ip:  {type: String},
+        client_mac: {type: String}
+      },
       router_id:          { type: String},
       ip:                 { type: String},
       locale:             { type: String},
