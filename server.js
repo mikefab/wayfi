@@ -19,6 +19,17 @@ var express      = require('express'),
     Survey       = require('./app/models/survey')
     port         = process.env.PORT || 3000;
     sendgrid     = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
+    nodemailer   = require('nodemailer');
+    config       = require('config.json')('./secret-config.json');
+
+    transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: config.user,
+            pass: config.pass
+        }
+    });
+
 
 
 mongoose.connect(mongoUri); // connect to our database
@@ -84,20 +95,29 @@ app.post('/:locale', function (req, res) {
           date:                new Date(),
           locale:              req.params.locale,
           twitter:             req.body.twitter,
+          query:               req.cookies.query,
           cookie:              req.cookies.seen,
           number_of_children:  parseInt(req.body.number_of_children)
       })
   s.save()
 
-  sendgrid.send({
-    to:       'mikefabrikant@gmail.com',
-    from:     'wayfi@unicef.org',
-    subject:  'new survey',
-    text:     JSON.stringify(s)
-  }, function(err, json) {
-    if (err) { return console.error(err); }
-    console.log(json);
+
+  transporter.sendMail({
+      from: config.from,
+      to: config.to,
+      subject: 'survey',
+      text: JSON.stringify(s)
   });
+
+  // sendgrid.send({
+  //   to:       'mikefabrikant@gmail.com',
+  //   from:     'wayfi@unicef.org',
+  //   subject:  'new survey',
+  //   text:     JSON.stringify(s)
+  // }, function(err, json) {
+  //   if (err) { return console.error(err); }
+  //   console.log(json);
+  // });
   res.redirect(req.cookies.query.base_grant_url + "?continue_url=http://www.unicef.org&duration=30")
   //res.render('finish.jade');
 });
