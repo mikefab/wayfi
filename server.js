@@ -18,9 +18,10 @@ var express      = require('express'),
     mongoUri     = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/surveys';
     Survey       = require('./app/models/survey')
     port         = process.env.PORT || 3000;
+    config       = require('config.json')('./secret-config.json');
+
     sendgrid     = require('sendgrid')(config.sendgrid_user, config.sendgrid_pass);
     nodemailer   = require('nodemailer');
-    config       = require('config.json')('./secret-config.json');
 
     transporter = nodemailer.createTransport({
         service: 'gmail',
