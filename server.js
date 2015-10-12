@@ -38,13 +38,13 @@ mongoose.connect(mongoUri); // connect to our database
 app.use(cookieParser());
 
 // set a cookie
-function detect_or_set_cookie(res){
+function set_cookie(res){
 
-    // no: set a new cookie
-    var randomNumber=Math.random().toString();
-    randomNumber=randomNumber.substring(2,randomNumber.length);
-    res.cookie('seen',randomNumber, { maxAge: 900000, httpOnly: true });
-    console.log('cookie created successfully');
+  // no: set a new cookie
+  var randomNumber=Math.random().toString();
+  randomNumber=randomNumber.substring(2,randomNumber.length);
+  res.cookie('seen', randomNumber, { maxAge: 900000, httpOnly: true });
+  console.log('cookie created successfully');
   return res
 };
 
@@ -63,8 +63,8 @@ app.use(bodyParser());
 
 // set a cookie to requested locale
 app.get('/', function (req, res) {
-  if(!!req.query){
-    res.cookie('query',req.query, { maxAge: 900000, httpOnly: true });
+  if(!req.query){
+    res.cookie('query', req.query, { maxAge: 900000, httpOnly: true });
   }
   res.redirect('/ar');
 });
@@ -78,7 +78,7 @@ app.get('/:locale', function (req, res) {
     //console.log('Return user ' + req.cookies.seen)
   }else{
     console.log('Setting cookie for new user')
-    res = detect_or_set_cookie(res)
+    res = set_cookie(res)
   }
 
   res.setLocale(req.params.locale)
