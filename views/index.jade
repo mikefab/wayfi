@@ -24,8 +24,8 @@ html(lang='en')
             .row.menu_height
               .col-xs-3
                 .fb-like(data-href='https://developers.facebook.com/docs/plugins/', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
-            .row
-              .col-xs-2
+            .row.menu_height
+              .col-xs-3
                 a.twitter-follow-button(href='https://twitter.com/anonymous_refugee', data-show-count='false') Follow @anonymous_refugee
                 script.
                   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
@@ -76,6 +76,7 @@ html(lang='en')
                     .form-group
                       label(for='number_of_children')= __("how_many_children")
                       select#number_of_children.form-control(name='number_of_children')
+                        option ""                     
                         option 0
                         option 1
                         option 2
